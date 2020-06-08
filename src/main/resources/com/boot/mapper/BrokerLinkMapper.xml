@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boot.dao.BrokerLinkMapper">
+
+    <resultMap id="BaseResultMap" type="com.boot.domain.BrokerLink">
+        <result column="IDENTITY_PROVIDER" jdbcType="VARCHAR" property="identityProvider" />
+        <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
+        <result column="BROKER_USER_ID" jdbcType="VARCHAR" property="brokerUserId" />
+    </resultMap>
+
+    <select id="getBrokerLink" resultMap="BaseResultMap">
+        select IDENTITY_PROVIDER,BROKER_USER_ID,USER_ID from BROKER_LINK where REALM_ID='business' and IDENTITY_PROVIDER like '%shopify%:%';
+    </select>
+</mapper>

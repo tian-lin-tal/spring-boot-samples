@@ -6,9 +6,9 @@ spring:
     # 开发禁用缓存
     cache: false
   datasource:
-    url: jdbc:mysql://localhost:3306/ssmDb?characterEncoding=UTF-8&useSSL=true
+    url: jdbc:mysql://172.16.9.93:3306/keycloak?characterEncoding=UTF-8&useSSL=false
     username: root
-    password: password
+    password: 123456
     # 可省略驱动配置, sprin-boot 会由url检测出驱动类型
     # driver-class-name: com.mysql.jdbc.Driver
     hikari:
