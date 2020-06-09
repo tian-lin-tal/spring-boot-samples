@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 /**
  * @author l.tian@aftership.com
@@ -17,8 +18,11 @@ import java.util.Map;
 @Service
 public class BrokerLinkService {
 
+    private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9!#$%&'+/=?^_`{|}~-]+(.[A-Za-z0-9!#$%&'+/=?^_`{|}~-]+)*@([A-Za-z0-9]+(?:-[A-Za-z0-9]+)?.)+[A-Za-z0-9]+(-[A-Za-z0-9]+)?$");
+
     @Resource
     BrokerLinkMapper mapper;
+
 
     public void getBrokerLink(){
        //1.查出所有 Shopify 的 broker link
@@ -67,11 +71,29 @@ public class BrokerLinkService {
                     needDeleteStoreMap.put(entry.getKey(),entry.getValue());
                     String storeName = entry.getKey().split("&")[0];
                     String brokerUserId = entry.getKey().split("&")[1];
-                    System.out.println("delete from BROKER_LINK where BROKER_USER_ID = '"+brokerUserId+"' and IDENTITY_PROVIDER LIKE '%"+storeName+"';");
+                    System.out.println("select IDENTITY_PROVIDER,BROKER_USERNAME,USER_ID from BROKER_LINK where BROKER_USER_ID = '"+brokerUserId+"' and IDENTITY_PROVIDER LIKE '%"+storeName+"';");
                 }
             }
         }
         //System.out.println(needDeleteStoreMap);
         System.out.println("-------:"+needDeleteStoreMap.size());
+    }
+     public void checkEmail(){
+         List<BrokerLink> list = mapper.getBrokerLink();
+         System.out.println(list.size());
+         int count = 0;
+         for(BrokerLink link:list){
+             if(link!=null&&link.getBrokerUsername()!=null){
+                if(!isEmailValid(link.getBrokerUsername())){
+                    System.out.println(link.getBrokerUsername());
+                    count++;
+                }
+             }
+         }
+         System.out.println(count);
+     }
+
+    public static boolean isEmailValid(String email) {
+        return EMAIL_PATTERN.matcher(email).matches();
     }
 }

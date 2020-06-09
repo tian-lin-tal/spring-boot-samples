@@ -7,9 +7,11 @@
         <result column="IDENTITY_PROVIDER" jdbcType="VARCHAR" property="identityProvider" />
         <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
         <result column="BROKER_USER_ID" jdbcType="VARCHAR" property="brokerUserId" />
+        <result column="BROKER_USERNAME" jdbcType="VARCHAR" property="brokerUsername" />
     </resultMap>
 
     <select id="getBrokerLink" resultMap="BaseResultMap">
-        select IDENTITY_PROVIDER,BROKER_USER_ID,USER_ID from BROKER_LINK where REALM_ID='business' and IDENTITY_PROVIDER like '%shopify%:%';
+        select IDENTITY_PROVIDER,BROKER_USER_ID,USER_ID,BROKER_USERNAME from BROKER_LINK where REALM_ID='business' and IDENTITY_PROVIDER like '%shopify%:%';
     </select>
+
 </mapper>

@@ -9,6 +9,7 @@ public class BrokerLink {
     private String identityProvider;
     private String userId;
     private String brokerUserId;
+    private String brokerUsername;
 
     public String getBrokerUserId() {
         return brokerUserId;
@@ -32,5 +33,13 @@ public class BrokerLink {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getBrokerUsername() {
+        return brokerUsername;
+    }
+
+    public void setBrokerUsername(String brokerUsername) {
+        this.brokerUsername = brokerUsername;
     }
 }

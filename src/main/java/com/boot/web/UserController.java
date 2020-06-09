@@ -19,5 +19,6 @@ public class UserController {
         User user = userService.selectUserById(1);  
         model.addAttribute("user", user);   
         return "index";    
-    } 
+    }
+
 }

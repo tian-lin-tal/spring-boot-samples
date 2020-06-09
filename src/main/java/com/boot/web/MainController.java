@@ -22,4 +22,10 @@ public class MainController {
         brokerLinkService.getBrokerLink();
         return "Hello World!";
     }
+
+    @RequestMapping(value = "/check/email")
+    String checkEmail() {
+        brokerLinkService.checkEmail();
+        return "Hello World!";
+    }
 }
