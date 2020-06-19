@@ -6,7 +6,7 @@ spring:
     # 开发禁用缓存
     cache: false
   datasource:
-    url: jdbc:mysql://172.16.9.93:3306/keycloak?characterEncoding=UTF-8&useSSL=false
+    url: jdbc:mysql://172.16.70.214:3306/keycloak?characterEncoding=UTF-8&useSSL=false
     username: root
     password: 123456
     # 可省略驱动配置, sprin-boot 会由url检测出驱动类型

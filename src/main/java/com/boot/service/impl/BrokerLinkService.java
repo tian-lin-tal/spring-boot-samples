@@ -2,6 +2,7 @@ package com.boot.service.impl;
 
 import com.boot.dao.BrokerLinkMapper;
 import com.boot.domain.BrokerLink;
+import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -18,8 +19,9 @@ import java.util.regex.Pattern;
 @Service
 public class BrokerLinkService {
 
-    private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9!#$%&'+/=?^_`{|}~-]+(.[A-Za-z0-9!#$%&'+/=?^_`{|}~-]+)*@([A-Za-z0-9]+(?:-[A-Za-z0-9]+)?.)+[A-Za-z0-9]+(-[A-Za-z0-9]+)?$");
+    //private static final Pattern EMAIL_PATTERN = Pattern.compile("^(?:(?:(?:(?:[a-zA-Z]|\\d|[!#\\$%&'\\*\\+\\-\\/=\\?\\^_`{\\|}~]|[\\x{00A0}-\\x{D7FF}\\x{F900}-\\x{FDCF}\\x{FDF0}-\\x{FFEF}])+(?:\\.([a-zA-Z]|\\d|[!#\\$%&'\\*\\+\\-\\/=\\?\\^_`{\\|}~]|[\\x{00A0}-\\x{D7FF}\\x{F900}-\\x{FDCF}\\x{FDF0}-\\x{FFEF}])+)*)|(?:(?:\\x22)(?:(?:(?:(?:\\x20|\\x09)*(?:\\x0d\\x0a))?(?:\\x20|\\x09)+)?(?:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x7f]|\\x21|[\\x23-\\x5b]|[\\x5d-\\x7e]|[\\x{00A0}-\\x{D7FF}\\x{F900}-\\x{FDCF}\\x{FDF0}-\\x{FFEF}])|(?:(?:[\\x01-\\x09\\x0b\\x0c\\x0d-\\x7f]|[\\x{00A0}-\\x{D7FF}\\x{F900}-\\x{FDCF}\\x{FDF0}-\\x{FFEF}]))))*(?:(?:(?:\\x20|\\x09)*(?:\\x0d\\x0a))?(\\x20|\\x09)+)?(?:\\x22))))@(?:(?:(?:[a-zA-Z]|\\d|[\\x{00A0}-\\x{D7FF}\\x{F900}-\\x{FDCF}\\x{FDF0}-\\x{FFEF}])|(?:(?:[a-zA-Z]|\\d|[\\x{00A0}-\\x{D7FF}\\x{F900}-\\x{FDCF}\\x{FDF0}-\\x{FFEF}])(?:[a-zA-Z]|\\d|-|\\.|~|[\\x{00A0}-\\x{D7FF}\\x{F900}-\\x{FDCF}\\x{FDF0}-\\x{FFEF}])*(?:[a-zA-Z]|\\d|[\\x{00A0}-\\x{D7FF}\\x{F900}-\\x{FDCF}\\x{FDF0}-\\x{FFEF}])))\\.)+(?:(?:[a-zA-Z]|[\\x{00A0}-\\x{D7FF}\\x{F900}-\\x{FDCF}\\x{FDF0}-\\x{FFEF}])|(?:(?:[a-zA-Z]|[\\x{00A0}-\\x{D7FF}\\x{F900}-\\x{FDCF}\\x{FDF0}-\\x{FFEF}])(?:[a-zA-Z]|\\d|-|\\.|~|[\\x{00A0}-\\x{D7FF}\\x{F900}-\\x{FDCF}\\x{FDF0}-\\x{FFEF}])*(?:[a-zA-Z]|[\\x{00A0}-\\x{D7FF}\\x{F900}-\\x{FDCF}\\x{FDF0}-\\x{FFEF}])))\\.?$");
 
+    private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9!#$%&'+=?^_`{|}~-]+(.[A-Za-z0-9!#$%&'+=?^_`{|}~-]+)*@([A-Za-z0-9]+(?:-[A-Za-z0-9]+)?.)+[A-Za-z0-9]+(-[A-Za-z0-9]+)?$");
     @Resource
     BrokerLinkMapper mapper;
 
@@ -80,8 +82,14 @@ public class BrokerLinkService {
     }
      public void checkEmail(){
          List<BrokerLink> list = mapper.getBrokerLink();
-         System.out.println(list.size());
+         BrokerLink brokerLink = new BrokerLink();
+         brokerLink.setBrokerUsername("ds.chen_123@asdssssssssf.comaaaaaaaaaaaaaaa");
+         BrokerLink brokerLink1 = new BrokerLink();
+         brokerLink1.setBrokerUsername("ds.chen_123@asdsssssssssssssssssssssssssf.com");
+         list.add(brokerLink);
+         list.add(brokerLink1);
          int count = 0;
+         Long beginTime = System.currentTimeMillis();
          for(BrokerLink link:list){
              if(link!=null&&link.getBrokerUsername()!=null){
                 if(!isEmailValid(link.getBrokerUsername())){
@@ -90,10 +98,11 @@ public class BrokerLinkService {
                 }
              }
          }
-         System.out.println(count);
+         System.out.println("total:"+list.size()+",not pass count:"+count+",costTime:"+(System.currentTimeMillis()-beginTime));
      }
 
     public static boolean isEmailValid(String email) {
-        return EMAIL_PATTERN.matcher(email).matches();
+       return EmailValidator.getInstance().isValid(email);
+        //return EMAIL_PATTERN.matcher(email).matches();
     }
 }
